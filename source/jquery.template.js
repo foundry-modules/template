@@ -13,6 +13,11 @@
 
 $.template = (function() {
 
+	var defaultTemplate = {
+		content: "",
+		type: "ejs"
+	};
+
 	var self = function(name, content) {
 
 		if (name===undefined) {
@@ -20,10 +25,22 @@ $.template = (function() {
 		}
 
 		if (content) {
-			self.templates[name] = content;
+
+			var template;
+
+			if ($.isPlainObject(content)) {
+
+				template = content;
+
+			} else {
+
+				template = $.extend({}, defaultTemplate, {name: name, content: content});
+			}
+
+			self.templates[name] = template;
 		}
 
-		return self.templates[name];
+		return self.templates[name].content;
 	};
 
 	$.extend(self, {
