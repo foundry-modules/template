@@ -24,9 +24,9 @@ $.template = (function() {
 			return self.templates;
 		}
 
-		if (content) {
+		var template;
 
-			var template;
+		if (content) {
 
 			if ($.isPlainObject(content)) {
 
@@ -38,9 +38,15 @@ $.template = (function() {
 			}
 
 			self.templates[name] = template;
-		}
 
-		return self.templates[name].content;
+			return template;
+
+		} else {
+
+			template = self.templates[name] || {};
+
+			return template.content || "";
+		}
 	};
 
 	$.extend(self, {
