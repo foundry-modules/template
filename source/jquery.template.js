@@ -26,7 +26,7 @@ $.template = (function() {
 
 		var template;
 
-		if (content) {
+		if (typeof content == "string") {
 
 			if ($.isPlainObject(content)) {
 
