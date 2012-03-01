@@ -1,27 +1,11 @@
-SRC_DIR = source
-BUILD_DIR = build
-FOUNDRY_DIR = ../..
-PRODUCTION_DIR = ${FOUNDRY_DIR}/scripts
-DEVELOPMENT_DIR = ${FOUNDRY_DIR}/scripts_
-UGLIFY = uglifyjs --unsafe -nc
+include ../../build/modules.mk
 
-BASE_FILES = ${SRC_DIR}/jquery.template.js
+MODULE = template
+FILENAME = ${MODULE}.js
+SOURCE = ${SOURCE_DIR}/jquery.${MODULE}.js
+PRODUCTION = ${PRODUCTION_DIR}/${FILENAME}
+DEVELOPMENT = ${DEVELOPMENT_DIR}/${FILENAME}
 
-all: premake body min foundry
-
-premake:
-	mkdir -p ${BUILD_DIR}
-
-body:
-	@@cat ${BASE_FILES} > ${BUILD_DIR}/jquery.template.js
-
-min:
-	${UGLIFY} ${BUILD_DIR}/jquery.template.js > ${BUILD_DIR}/jquery.template.min.js
-
-foundry:
-	cat ${FOUNDRY_DIR}/build/foundry_intro.js \
-		${BUILD_DIR}/jquery.template.js \
-		${FOUNDRY_DIR}/build/foundry_outro.js \
-		> ${DEVELOPMENT_DIR}/template.js
-
-	${UGLIFY} ${DEVELOPMENT_DIR}/template.js > ${PRODUCTION_DIR}/template.js
+all:
+	${MODULARIZE} -n "${MODULE}" ${SOURCE} > ${DEVELOPMENT}
+	${UGLIFYJS} ${DEVELOPMENT} > ${PRODUCTION}
