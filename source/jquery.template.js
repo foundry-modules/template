@@ -56,8 +56,9 @@ $.template = (function() {
 		remove: function(name) {
 
 			delete self.templates[name];
-		}
+		},
 
+		loaders: {}
 	});
 
 	return self;
