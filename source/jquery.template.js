@@ -56,32 +56,6 @@ $.template = (function() {
 		remove: function(name) {
 
 			delete self.templates[name];
-			delete self.loaders[name];
-		},
-
-		loaders: {},
-
-		createLoader: function(name) {
-
-			var loader = self.loaders[name] =
-
-				$.Deferred()
-					.done(function(content){
-					   self(name, content);
-					});
-
-				loader.name = name;
-
-				loader.reset = function() {
-					return self.createLoader(name);
-				};
-
-			return loader;
-		},
-
-		loader: function(name) {
-
-			return self.loaders[name] || self.createLoader(name);
 		}
 	});
 
